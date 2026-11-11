@@ -92,6 +92,13 @@ public class Cafeteria {
 				
 				break;
 
+			case 6:
+				System.out.println("==== VALIDAR LOTE DE CÓDIGOS ====");
+				
+				validarLoteCodigos();
+				
+				break;
+				
 			case 0:
 
 				System.out.println("Encerrando a Cafeteria Java...");
@@ -128,6 +135,7 @@ public class Cafeteria {
 		System.out.println("3 - Exibir resumo de vendas");
 		System.out.println("4 - Sobre o sistema");
 		System.out.println("5 - Analisar pedido em texto");
+		System.out.println("6 - Validar lote de códigos");
 		System.out.println("0 - Sair");
 		System.out.println();
 	}
@@ -476,29 +484,52 @@ public class Cafeteria {
 		if(codigo.length() != 7) {
 			return false;
 		}		
+
+		for(int i = 0; i < 3; i++) {
+			if(!Character.isLetter(codigo.charAt(i)) || codigo.charAt(i) < 'A' || codigo.charAt(i) > 'Z') {
+				return false;
+			}
+		}
 		
-		if(!Character.isLetter(codigo.charAt(0)) || codigo.charAt(0) < 'A' || codigo.charAt(0) > 'Z') {
-			return false;
-		}
-		if(!Character.isLetter(codigo.charAt(1)) || codigo.charAt(1) < 'A' || codigo.charAt(1) > 'Z') {
-			return false;
-		}
-		if(!Character.isLetter(codigo.charAt(2)) || codigo.charAt(2) < 'A' || codigo.charAt(2) > 'Z') {
-			return false;
-		}
-		if(!Character.isDigit(codigo.charAt(3))) {
-			return false;
-		}
-		if(!Character.isDigit(codigo.charAt(4))) {
-			return false;
-		}
-		if(!Character.isDigit(codigo.charAt(5))) {
-			return false;
-		}
-		if(!Character.isDigit(codigo.charAt(6))) {
-			return false;
+		for(int i = 3; i < 7; i++) {
+			if(!Character.isDigit(codigo.charAt(i))) {
+				return false;
+			}
 		}
 				
 		return true;	
 	}
+	
+	public static boolean[] codigoValido(String[] codigos) {
+		
+		boolean[] lista = new boolean[codigos.length];
+		
+		for(int i = 0; i < codigos.length; i++) {
+			
+			String codigo = normalizarCodigo(codigos[i]);
+
+			lista[i] = codigoValido(codigo);
+		}
+		
+		return lista;
+	}
+
+	public static void validarLoteCodigos(){
+		String[] codigos = {"elc1234", "  AB3456", "ErT5678  ", "LUI9876"}; //{true, false, true, true}
+		
+		boolean[] resultados = codigoValido(codigos);
+		
+		for(int i = 0;i < resultados.length;i++) {
+			
+			boolean valido = resultados[i];
+			String codigo = codigos[i];
+			
+			if(valido) {
+				System.out.println("Código válido: " + codigo);
+			} else {
+				System.err.println("Deu ruim!!! " + codigo);
+			}
+		}
+	}
+	
 }
