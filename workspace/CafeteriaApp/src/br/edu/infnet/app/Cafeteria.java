@@ -10,7 +10,7 @@ public class Cafeteria {
 	private static int totalSanduiches = 0;
 
 	public static void main(String[] args) {
-
+		
 		Scanner in = new Scanner(System.in);
 
 		int opcao;
@@ -522,7 +522,7 @@ public class Cafeteria {
 		for(int i = 0;i < resultados.length;i++) {
 			
 			boolean valido = resultados[i];
-			String codigo = codigos[i];
+			String codigo = normalizarCodigo(codigos[i]);
 			
 			if(valido) {
 				System.out.println("Código válido: " + codigo);
